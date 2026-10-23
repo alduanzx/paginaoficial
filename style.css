@@ -38,10 +38,10 @@ width: 25%;
 padding-right: 30px;
 }
 .banner1{
-display: flex;
-justify-content: center;
-widht: 200px;
-height: auto;
+width: 70%;
+  height: auto;
+  display: block;
+  margin: 0 auto;
 }
 .estudante_titulo{
 padding: 50px;
