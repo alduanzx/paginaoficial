@@ -1,123 +1,88 @@
-/**
- * Sistema de Partículas Interativas
- * Interage com o movimento do mouse e clique
- */
+ <!-- INÍCIO JOGO -->
+  <main class="conteudo">
+    <section class="jogo" aria-label="Jogo Enduro">
 
-const canvas = document.createElement('canvas');
-const ctx = canvas.getContext('2d');
-document.body.appendChild(canvas);
-document.body.style.margin = '0';
-document.body.style.overflow = 'hidden';
-document.body.style.background = '#0a0a12';
+      <div class="jogo__topo">
+        <div>
+          <h1 class="jogo__titulo">Enduro</h1>
+          <p class="jogo__legenda">Ultrapasse os carros antes do fim da etapa. Cuidado com a noite!</p>
+        </div>
+        <div class="jogo__acoes">
+          <button class="btn btn--fantasma btn--som" id="btn-som" type="button" aria-pressed="false">🔇 Som</button>
+          <button class="btn btn--fantasma" id="btn-pausa" type="button">⏸ Pausa</button>
+        </div>
+      </div>
 
-let width = window.innerWidth;
-let height = window.innerHeight;
-canvas.width = width;
-canvas.height = height;
+      <!-- Placar / HUD -->
+      <div class="hud" role="status" aria-live="off">
+        <div class="hud__item"><span class="hud__rotulo">Etapa</span><span class="hud__valor" id="hud-etapa">1</span></div>
+        <div class="hud__item"><span class="hud__rotulo">Fase</span><span class="hud__valor" id="hud-fase">Manhã</span></div>
+        <div class="hud__item"><span class="hud__rotulo">km/h</span><span class="hud__valor" id="hud-velocidade">0</span></div>
+        <div class="hud__item"><span class="hud__rotulo">Passados</span><span class="hud__valor hud__valor--destaque" id="hud-passadas">0</span></div>
+        <div class="hud__item"><span class="hud__rotulo">Meta</span><span class="hud__valor" id="hud-meta">16</span></div>
+        <div class="hud__item"><span class="hud__rotulo">Tempo</span><span class="hud__valor" id="hud-tempo">0</span></div>
+        <div class="hud__item"><span class="hud__rotulo">Pontos</span><span class="hud__valor" id="hud-pontos">0</span></div>
+        <div class="hud__item"><span class="hud__rotulo">Vidas</span><span class="hud__valor hud__valor--vidas" id="hud-vidas">♥♥♥</span></div>
+        <div class="hud__item"><span class="hud__rotulo">Recorde</span><span class="hud__valor" id="hud-recorde">0</span></div>
+      </div>
 
-const particles = [];
-const colors = ['#00ffd5', '#7000ff', '#ff0090', '#00ff88', '#ffee00'];
-const mouse = { x: null, y: null };
+      <!-- Palco do jogo -->
+      <div class="palco" id="jogo-palco">
+        <canvas id="enduro-canvas" width="960" height="600" aria-label="Pista de corrida"></canvas>
 
-class Particle {
-  constructor(x, y, vx = 0, vy = 0) {
-    this.x = x;
-    this.y = y;
-    this.vx = vx;
-    this.vy = vy;
-    this.size = Math.random() * 4 + 2;
-    this.color = colors[Math.floor(Math.random() * colors.length)];
-    this.life = Math.random() * 200 + 100;
-    this.alpha = 1;
-  }
+        <div class="banner" id="jogo-banner" role="status"></div>
 
-  update() {
-    this.x += this.vx;
-    this.y += this.vy;
-    this.life--;
-    this.alpha = this.life / 300;
-    this.size *= 0.98;
-    if (this.size < 0.5) this.size = 0.5;
-  }
+        <!-- Tela inicial -->
+        <div class="sobreposicao sobreposicao--visivel" id="tela-inicio">
+          <h2 class="sobreposicao__titulo">Enduro</h2>
+          <p class="sobreposicao__texto">
+            Pise fundo e ultrapasse o número de carros de cada etapa antes do tempo acabar.
+            A cada etapa o dia muda: manhã, dia, tarde e a temida <strong>noite</strong>.
+          </p>
+          <button class="btn btn--principal" id="btn-iniciar" type="button">▶ Começar a correr</button>
+          <p class="sobreposicao__texto">Setas ← → para dirigir • ↑ acelerar • ↓ frear</p>
+        </div>
 
-  draw() {
-    ctx.save();
-    ctx.globalAlpha = Math.max(this.alpha, 0);
-    ctx.fillStyle = this.color;
-    ctx.shadowColor = this.color;
-    ctx.shadowBlur = 15;
-    ctx.beginPath();
-    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-    ctx.fill();
-    ctx.restore();
-  }
-}
+        <!-- Tela de pausa -->
+        <div class="sobreposicao" id="tela-pausa">
+          <h2 class="sobreposicao__titulo">Pausa</h2>
+          <button class="btn btn--principal" id="btn-continuar" type="button">Continuar</button>
+          <p class="sobreposicao__texto">Pressione P ou Enter para voltar à corrida.</p>
+        </div>
 
-function spawnParticles(x, y, count = 15) {
-  for (let i = 0; i < count; i++) {
-    const angle = Math.random() * Math.PI * 2;
-    const speed = Math.random() * 6 + 2;
-    particles.push(new Particle(
-      x, y,
-      Math.cos(angle) * speed,
-      Math.sin(angle) * speed
-    ));
-  }
-}
+        <!-- Tela de fim de jogo -->
+        <div class="sobreposicao" id="tela-fim">
+          <h2 class="sobreposicao__titulo">Fim da corrida</h2>
+          <div class="sobreposicao__placar">
+            <div><b id="fim-pontos">0</b><span>Pontos</span></div>
+            <div><b id="fim-ultrapassagens">0</b><span>Carros</span></div>
+            <div><b id="fim-etapas">0</b><span>Etapas</span></div>
+          </div>
+          <p class="sobreposicao__texto">Recorde: <strong id="fim-recorde">0</strong> pontos</p>
+          <span class="selo-recorde" id="fim-novo-recorde">🏆 Novo recorde!</span>
+          <button class="btn btn--principal" id="btn-reiniciar" type="button">↻ Jogar novamente</button>
+        </div>
+      </div>
 
-window.addEventListener('resize', () => {
-  width = window.innerWidth;
-  height = window.innerHeight;
-  canvas.width = width;
-  canvas.height = height;
-});
+      <!-- Controles de toque (aparecem em celulares/tablets) -->
+      <div class="controles" aria-label="Controles de toque">
+        <div class="controles__grupo">
+          <button class="controles__btn" id="toque-esquerda" type="button" aria-label="Virar para a esquerda">◀</button>
+          <button class="controles__btn" id="toque-direita" type="button" aria-label="Virar para a direita">▶</button>
+        </div>
+        <div class="controles__grupo controles__grupo--dir">
+          <button class="controles__btn" id="toque-frear" type="button" aria-label="Frear">▼</button>
+          <button class="controles__btn controles__btn--acelerar" id="toque-acelerar" type="button" aria-label="Acelerar">▲</button>
+        </div>
+      </div>
 
-window.addEventListener('mousemove', (e) => {
-  mouse.x = e.clientX;
-  mouse.y = e.clientY;
-  if (Math.random() > 0.5) {
-    spawnParticles(mouse.x, mouse.y, 2);
-  }
-});
-
-window.addEventListener('click', (e) => {
-  spawnParticles(e.clientX, e.clientY, 30);
-});
-
-function animate() {
-  ctx.fillStyle = 'rgba(10, 10, 18, 0.15)';
-  ctx.fillRect(0, 0, width, height);
-
-  for (let i = particles.length - 1; i >= 0; i--) {
-    const p = particles[i];
-    p.update();
-    p.draw();
-    if (p.life <= 0 || p.alpha <= 0) {
-      particles.splice(i, 1);
-    }
-  }
-
-  // Linhas conectando partículas próximas
-  for (let i = 0; i < particles.length; i++) {
-    for (let j = i + 1; j < particles.length; j++) {
-      const dx = particles[i].x - particles[j].x;
-      const dy = particles[i].y - particles[j].y;
-      const dist = Math.sqrt(dx * dx + dy * dy);
-      if (dist < 120) {
-        ctx.save();
-        ctx.globalAlpha = (1 - dist / 120) * 0.3;
-        ctx.strokeStyle = particles[i].color;
-        ctx.lineWidth = 0.5;
-        ctx.beginPath();
-        ctx.moveTo(particles[i].x, particles[i].y);
-        ctx.lineTo(particles[j].x, particles[j].y);
-        ctx.stroke();
-        ctx.restore();
-      }
-    }
-  }
-
-  requestAnimationFrame(animate);
-}
-
-animate();
+      <p class="dicas">
+        <span><kbd>←</kbd> <kbd>→</kbd> dirigir</span>
+        <span><kbd>↑</kbd> acelerar</span>
+        <span><kbd>↓</kbd> frear</span>
+        <span><kbd>P</kbd> pausa</span>
+        <span><kbd>M</kbd> som</span>
+        <span><kbd>R</kbd> reiniciar</span>
+      </p>
+    </section>
+  </main>
