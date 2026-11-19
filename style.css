@@ -25,9 +25,44 @@ display: flex;
 justify-content: flex-start;
 align-items: center;
 }
+
+/* MENU DO SITE */
 .menu{
     background-color:rgb(20, 20, 21);  
 }
+
+.menu {
+    list-style: none;
+    padding: 15px;
+    margin: 20px;
+    width: 200px;
+    background-color: #1e1e2f;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
+
+.menu li {
+    margin: 8px 0;
+}
+
+.menu li a {
+    display: block;
+    padding: 13px 15px;
+    color: white;
+    text-decoration: none;
+    font-family: Arial, sans-serif;
+    font-size: 16px;
+    border-radius: 10px;
+    transition: 0.3s;
+}
+
+.menu li a:hover {
+    background-color: #070707;
+    padding-left: 25px;
+    color: white;
+}
+
+
 .titulo_site{
 padding: 50px;
 text-align: center;
