@@ -27,103 +27,35 @@ align-items: center;
 }
 
 /* MENU DO SITE */
-.menu{
-    background-color:rgb(20, 20, 21);  
-}
-
 .menu {
     list-style: none;
-    padding: 15px;
-    margin: 20px;
-    width: 200px;
+    padding: 8px;
+    margin: 10px;
+    width: 150px;
     background-color: #1e1e2f;
-    border-radius: 15px;
+    border-radius: 12px;
     box-shadow: 0 5px 15px rgba(0,0,0,0.3);
 }
 
 .menu li {
-    margin: 8px 0;
+    margin: 5px 0;
 }
 
 .menu li a {
     display: block;
-    padding: 13px 15px;
+    padding: 9px 10px;
     color: white;
     text-decoration: none;
     font-family: Arial, sans-serif;
-    font-size: 16px;
-    border-radius: 10px;
+    font-size: 13px;
+    border-radius: 8px;
     transition: 0.3s;
 }
 
 .menu li a:hover {
-    background-color: #070707;
-    padding-left: 25px;
+    background-color: #000000;
+    padding-left: 16px;
     color: white;
-}
-
-
-.titulo_site{
-padding: 50px;
-text-align: center;
-width: 50%;
-font: 30px;
-}
-.sociais{
-display: flex;
-justify-content: flex-end;
-width: 25%;
-padding-right: 30px;
-}
-.banner1{
-display: flex;
-justify-content: center;
-}
-.estudante_titulo{
-padding: 50px;
-text-align: center;
-
-}
-.estudante-nome{
-text-align: center;
-}
-.estudante-imagem{
-width: 120px;
-}
-.estudante-icone{
-width: 38px;
-padding: 4px 8px;
-}
-.estudante{
-background-image: background-color(#000000);
-padding: 24px 0;
-}
-
-.estudante.div{
-text-align: center;
-padding: 24px 0;
-}
-.estudantes_todos{
-display: flex;
-justify-content: space-around;
-}
-.escola{
-background-image: linear-gradient(#b3b3b3,#202020);
-color: white;
-display: flex;
-justify-content:center;
-padding: 24px 0;
-text-align:center;
-display:block;
-}
-.escola-titulo{
-padding: 50px;
-text-align: center;
-}
-.logo_rodape{
-height: 80px;
-padding: 12px 0;
-
 }
 
 .link{
@@ -168,10 +100,11 @@ justify-content: flex-end;
 width: 25%;
 padding-right: 30px;
 }
-.banner1{
-display: flex;
-justify-content: center;
-}   
+.banner {
+    width: 500px;
+    height: auto;
+    display: block;
+}
 .estudante_titulo{
 padding: 50px;
 text-align: center;
