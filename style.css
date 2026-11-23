@@ -112,10 +112,14 @@ img {
 }
 
 .estudante-nome {
-    text-align: center;
     color: white;
     font-size: 18px;
     font-weight: bold;
+    text-align: center;
+}
+
+.estudante-nome a {
+    color: white;
     text-decoration: none;
 }
 
