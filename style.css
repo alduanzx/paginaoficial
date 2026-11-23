@@ -125,7 +125,7 @@ img {
 }
 
 .estudante {
-    background-color: #000000;
+    background-color: #494949;
     padding: 24px 0;
 }
 
@@ -141,7 +141,7 @@ img {
 
 /* ESCOLA */
 .escola {
-    background-image: linear-gradient(#ffffff, #000000);
+    background-image: linear-gradient(#ffffff, #494949);
     color: white;
     justify-content: center;
     padding: 24px 0;
