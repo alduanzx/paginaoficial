@@ -113,10 +113,16 @@ img {
 
 .estudante-nome {
     text-align: center;
+    color: white;
+    font-size: 18px;
+    font-weight: bold;
+    text-decoration: none;
 }
 
 .estudante-imagem {
-    width: 120px;
+    width: 180px;
+    height: 180px;
+    object-fit: cover;
 }
 
 .estudante-icone {
